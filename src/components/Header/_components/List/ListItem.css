@@ -3,6 +3,7 @@
   cursor: pointer;
   position: relative;
   text-decoration: none;
+  background-color: transparent;
 }
 
 .list-item::after {
