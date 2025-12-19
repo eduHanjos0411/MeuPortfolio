@@ -1,8 +1,8 @@
-import { useParticle } from '../../hooks/useParticles'
+import { useParticles } from '../../hooks/useParticles'
 import './background.css'
 
 export function BackgroundParticles() {
-    useParticle()
+    useParticles()
 
   return <canvas id="particles-canvas" />
 }
