@@ -1,0 +1,9 @@
+.about-section {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  margin-top: 4rem;
+}
+
