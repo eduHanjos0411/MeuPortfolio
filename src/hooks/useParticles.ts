@@ -146,7 +146,7 @@ export function useParticles() {
 
         /* amortecimento geral */
         p.vx *= 0.992
-p.vy *= 0.992
+        p.vy *= 0.992
 
         /* limites */
         if (p.x < 0 || p.x > width) p.vx *= -1
