@@ -1,0 +1,7 @@
+.title-hero { 
+  background: var(--gradient);
+  width: fit-content;
+  color: transparent;
+  background-clip: text;
+  font-size: 96px;
+}
