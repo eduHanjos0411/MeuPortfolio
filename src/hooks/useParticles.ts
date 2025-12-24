@@ -16,6 +16,7 @@ export function useParticles() {
       "particles-canvas"
     ) as HTMLCanvasElement
 
+    if (!canvas) return
     const ctx = canvas.getContext("2d")!
 
     let width = 0
@@ -35,73 +36,48 @@ export function useParticles() {
 
     const particleCount = Math.min(
       Math.floor((window.innerWidth * window.innerHeight) / 14000),
-      160
+      120
     )
 
     const particles: Particle[] = Array.from({ length: particleCount }, () => {
       const angle = Math.random() * Math.PI * 2
+      const speed = Math.random() * 0.4 + 0.2 
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 1.5 + 0.4,
+        r: Math.random() * 1.8 + 0.5,
         angle,
-        speed: Math.random() * 0.3 + 0.15,
-        vx: Math.cos(angle) * 0.2,
-        vy: Math.sin(angle) * 0.2,
+        speed,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
       }
     })
 
     /* =========================
-       CURSOR (FUGA)
-    ========================== */
-
-    const mouse = {
-      x: -1000,
-      y: -1000,
-      radius: 120,
-    }
-
-    const onMouseMove = (e: MouseEvent) => {
-      mouse.x = e.clientX
-      mouse.y = e.clientY
-    }
-
-    const onMouseLeave = () => {
-      mouse.x = -1000
-      mouse.y = -1000
-    }
-
-    window.addEventListener("mousemove", onMouseMove)
-    window.addEventListener("mouseleave", onMouseLeave)
-
-    /* =========================
-       SCROLL (VENTO)
+       SCROLL (IMPULSO MOMENTÂNEO)
     ========================== */
 
     let lastScrollY = window.scrollY
-    let scrollForce = 0
+    let scrollVelocity = 0
 
     const onScroll = () => {
       const currentScroll = window.scrollY
-      scrollForce += (currentScroll - lastScrollY) * 0.002
+      scrollVelocity = (currentScroll - lastScrollY) * 0.05
       lastScrollY = currentScroll
     }
 
     window.addEventListener("scroll", onScroll)
 
     /* =========================
-       GRADIENTE DINÂMICO
+       GRADIENTE ESTÁTICO (FIXO)
     ========================== */
 
-    let hueShift = 0
-
     const createGradient = () => {
+      // Cria o gradiente conforme solicitado: #6300b2, #930dc2, #ff0000
       const g = ctx.createLinearGradient(0, 0, width, 0)
-
-      g.addColorStop(0, `hsl(${270 + hueShift}, 90%, 55%)`)
-      g.addColorStop(0.5, `hsl(${295 + hueShift}, 90%, 55%)`)
-      g.addColorStop(1, `hsl(${0 + hueShift}, 90%, 55%)`)
-
+      g.addColorStop(0, "#6300b2")
+      g.addColorStop(0.5, "#930dc2")
+      g.addColorStop(1, "#ff0000")
       return g
     }
 
@@ -109,85 +85,64 @@ export function useParticles() {
        ANIMAÇÃO
     ========================== */
 
-    const maxDistance = 130
+    let animationFrameId: number
 
     const animate = () => {
       ctx.clearRect(0, 0, width, height)
-
+      
       const gradient = createGradient()
-      hueShift = (hueShift + 0.04) % 360
-
-      // amortecimento do scroll (vento some aos poucos)
-      scrollForce *= 0.92
+      scrollVelocity *= 0.9 // Amortecimento do scroll
 
       particles.forEach((p) => {
-        // movimento autônomo contínuo (drift)
-        p.angle += (Math.random() - 0.5) * 0.01
+        // Movimento de flutuação suave
+        p.angle += (Math.random() - 0.5) * 0.02
+        
+        const targetVx = Math.cos(p.angle) * p.speed
+        const targetVy = Math.sin(p.angle) * p.speed
+        
+        p.vx += (targetVx - p.vx) * 0.03
+        p.vy += (targetVy - p.vy) * 0.03
 
-        p.vx += Math.cos(p.angle) * p.speed * 0.02
-        p.vy += Math.sin(p.angle) * p.speed * 0.02
-        /* fuga do mouse */
-        const dx = p.x - mouse.x
-        const dy = p.y - mouse.y
-        const distance = Math.sqrt(dx * dx + dy * dy)
+        // Posição + impacto do scroll
+        p.x += p.vx
+        p.y += p.vy + scrollVelocity
 
-        if (distance < mouse.radius) {
-          const force = (mouse.radius - distance) / mouse.radius
-          p.vx += (dx / distance) * force * 0.6
-          p.vy += (dy / distance) * force * 0.6
+        // Limites da tela com rebate (garante que não "caiam")
+        if (p.x <= 0) {
+          p.x = 0
+          p.vx *= -1
+          p.angle = Math.atan2(p.vy, p.vx)
+        } else if (p.x >= width) {
+          p.x = width
+          p.vx *= -1
+          p.angle = Math.atan2(p.vy, p.vx)
         }
 
-        /* influência do scroll */
-        p.vy += scrollForce
+        if (p.y <= 0) {
+          p.y = 0
+          p.vy *= -1
+          p.angle = Math.atan2(p.vy, p.vx)
+        } else if (p.y >= height) {
+          p.y = height
+          p.vy *= -1
+          p.angle = Math.atan2(p.vy, p.vx)
+        }
 
-        /* movimento autônomo */
-        p.x += p.vx
-        p.y += p.vy
-
-        /* amortecimento geral */
-        p.vx *= 0.992
-        p.vy *= 0.992
-
-        /* limites */
-        if (p.x < 0 || p.x > width) p.vx *= -1
-        if (p.y < 0 || p.y > height) p.vy *= -1
-
+        // Desenho da partícula com o novo gradiente
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
         ctx.fillStyle = gradient
         ctx.fill()
       })
 
-      /* conexões */
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-
-          if (dist < maxDistance) {
-            ctx.beginPath()
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-
-            ctx.strokeStyle = gradient
-            ctx.globalAlpha = 1 - dist / maxDistance
-            ctx.lineWidth = 0.5
-            ctx.stroke()
-          }
-        }
-      }
-
-      ctx.globalAlpha = 1
-      requestAnimationFrame(animate)
+      animationFrameId = requestAnimationFrame(animate)
     }
 
     animate()
 
     return () => {
+      cancelAnimationFrame(animationFrameId)
       window.removeEventListener("resize", resize)
-      window.removeEventListener("mousemove", onMouseMove)
-      window.removeEventListener("mouseleave", onMouseLeave)
       window.removeEventListener("scroll", onScroll)
     }
   }, [])
