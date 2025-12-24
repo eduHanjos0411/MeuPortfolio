@@ -5,6 +5,7 @@
   padding: 0;
   background-color: black;
   font-family: "KoHo", sans-serif;
+  color: white;
 }
 
 :root {
@@ -22,4 +23,5 @@ body {
   margin: 0;
   padding: 0;
   background-color: #000;
+  scroll-behavior: smooth;
 }
