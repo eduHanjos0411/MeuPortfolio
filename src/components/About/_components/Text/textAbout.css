@@ -1,0 +1,37 @@
+.text-about {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.top-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-about img {
+  width: 500px;
+  height: 500px;
+  border-radius: 10%;
+  margin-right: 2rem;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+
+}
