@@ -4,7 +4,7 @@ import './hero.css'
 
 export function Hero() {
   return (
-    <main className="hero-section">
+    <main className="hero-section" id="hero">
       <TitleHero/>
       <TextHero/>
     </main>
