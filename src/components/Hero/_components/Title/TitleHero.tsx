@@ -1,5 +1,5 @@
 import './titleHero.css'
 
 export function TitleHero() {
-  return <h1 className='title-hero'>Eduardo Henrique</h1>
+  return <h1 className='title-hero'>Desenvolvedor Web</h1>
 }
