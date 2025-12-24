@@ -4,9 +4,10 @@ import './ListGroup.css'
 export function ListGroup() {
   return (
     <ul className="list-group">
-      <ListItem>O que faço</ListItem>
-      <ListItem>Quem sou</ListItem>
-      <ListItem>Projetos</ListItem>
+      <ListItem href="#hero">Início</ListItem>
+      <ListItem href="#about">Sobre mim</ListItem>
+      <ListItem href="#projects">Projetos</ListItem>
+      <ListItem href="#contact">Contato</ListItem>
     </ul>
   )
 }
