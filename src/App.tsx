@@ -1,8 +1,10 @@
 import "./App.css"
 import { About } from "./components/About"
 import { BackgroundParticles } from "./components/BackgroundParticles/BackgroundParticles"
+import { BackToTopBtn } from "./components/BackToTopButton/BackToTopBtn"
 import { Header } from "./components/Header"
 import { Hero } from "./components/Hero"
+import { Projects } from "./components/Projects"
 
 function App() {
   return <>
@@ -10,6 +12,8 @@ function App() {
   <Header/>
   <Hero/>
   <About/>
+  <Projects/>
+  <BackToTopBtn/>
   </>
 }
 
