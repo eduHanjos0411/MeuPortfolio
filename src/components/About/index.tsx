@@ -8,7 +8,6 @@ export function About() {
     <TitleAbout/>
     <div>
     <TextAbout/> 
-    <img src=""/>
     </div>
     </main>
   )
