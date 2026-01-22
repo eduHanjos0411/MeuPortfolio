@@ -1,0 +1,16 @@
+.back-to-top-btn {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(253, 253, 253, 0.1);
+  transition: background-color 0.3s ease;
+  background-color: transparent;
+}
