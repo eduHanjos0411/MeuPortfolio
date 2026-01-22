@@ -1,0 +1,36 @@
+.project-card {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  border-radius: 24px;
+  background-color: transparent;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  padding: 8px;
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.img-project {
+  border-radius: 15px;
+
+}
+
+.texts-project {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 15px 15px 15px;
+  background-color: transparent;
+}
+
+.git-icon {
+    width: 30px;
+}
