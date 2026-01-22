@@ -7,7 +7,7 @@ export function TextAbout() {
   return (
     <article className="text-about">
       <div className="top-content">
-        <img src="eu.png" alt="" />
+        <img src="eu.png" alt=""  className="eu-pic"/>
         <div className="right-side">
           <div className="texts">
             <p>
@@ -42,7 +42,7 @@ export function TextAbout() {
 
             <p>
               Estou sempre aberto a novas oportunidades e desafios, então se te
-              interessei pelo meu perfil, não hesite em entrar em contato!
+              interessei pelo meu perfil, <strong>não hesite em entrar em contato!</strong>
             </p>
           </div>
         </div>
