@@ -23,7 +23,7 @@ const cardInfos: CardProps[] = [
 export function Projects() {
   return (
     <>
-      <main className="projects-section">
+      <main className="projects-section" id="projects">
         <TitleProjects />
         <SubtitleProjects/>
         <div>
